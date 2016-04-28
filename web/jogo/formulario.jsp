@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="rs.com.xucro.modelo.Autor"%>
 <%@page import="rs.com.xucro.dao.AutorDAO"%>
 <%@page import="rs.com.xucro.modelo.Imagem"%>
 <%@page import="rs.com.xucro.dao.ImagemDAO"%>
@@ -63,7 +64,20 @@
             Número Máximo de Players: <input type="text" name="nPlayers" value="<%=jogoDao.getObjetoSelecionado().getNumeroPlayers() == null ? "" : jogoDao.getObjetoSelecionado().getNumeroPlayers()%>"/><br/>
             Número de bits: <input type="text" name="bits" value="<%=jogoDao.getObjetoSelecionado().getBits() == null ? "" : jogoDao.getObjetoSelecionado().getBits()%>"/><br/>
             Tamanho: <input type="text" name="tamanho" value="<%=jogoDao.getObjetoSelecionado().getTamanhoTotal()== null ? "" : jogoDao.getObjetoSelecionado().getTamanhoTotal()%>"/><br/>
-            Autor: <input type="text" name="autor" value="<%=jogoDao.getObjetoSelecionado().getAutor()== null ? "" : jogoDao.getObjetoSelecionado().getAutor().getId() %>"/><br/>
+            Autor:  <select id="idCategoria" name="autor">
+                <%
+                    for (Autor au : autorDao.getLista()) {
+                        String selected = "";
+                        if (jogoDao.getObjetoSelecionado().getCategoria() != null) {
+                            selected = jogoDao.getObjetoSelecionado().getCategoria().getId().equals(au.getId())
+                                    ? "selected" : "";
+                        }
+                %>
+                <option value="<%=au.getId()%>" <%=selected%> > <%=au.getNome()%> </option>
+                <%
+                    }
+                %>
+            </select><br/>
             Sinopse:<br/><textarea rows="5" cols="50" name="sinopse">
                 <%=
                     jogoDao.getObjetoSelecionado().getSinopse()
